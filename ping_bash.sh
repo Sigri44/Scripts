@@ -1,6 +1,9 @@
+
 #!/bin/bash
 machine="www.google.fr"
 coupures=0
+min=40
+max=149
 while true;
 do
   CMD_DATE=$(date)
@@ -8,9 +11,9 @@ do
   PING=$(ping -c 1 $machine)
   if [ "$PING" ] ; then
     TIME=$(echo "$PING" | tail -1 | cut -d/ -f 5 | cut -d. -f 1)
-    if [ "${TIME}" -lt 20 ] ; then
+    if [ "${TIME}" -lt $min ] ; then
         echo "${DATE}" : ping sur $machine : "$(echo -e "\033[30m\033[42m${TIME} ms\033[0m")"
-    elif [ "${TIME}" -gt 20 ] && [ "${TIME}" -lt 99 ]  ; then
+    elif [ "${TIME}" -gt $min ] && [ "${TIME}" -lt $max ]  ; then
         echo "${DATE}" : ping sur $machine : "$(echo -e "\033[30m\033[43m${TIME} ms\033[0m")"
     else
         echo "${DATE}" : ping sur $machine : "$(echo -e "\033[30m\033[41m${TIME} ms\033[0m")"
